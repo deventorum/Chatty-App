@@ -1,5 +1,5 @@
 {
-  "name": "Chatty-App",
+  "name": "chatty-app",
   "version": "1.0.0",
   "description": "Simple React real time web application",
   "scripts": {
