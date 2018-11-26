@@ -1,7 +1,7 @@
 {
-  "name": "react-simple-boilerplate",
+  "name": "Chatty-App",
   "version": "1.0.0",
-  "description": "Simple and lightweight Boilerplate for ReactJS projects",
+  "description": "Simple React real time web application",
   "scripts": {
     "lint": "eslint --ext .jsx,.js src",
     "start": "node server.js"
@@ -13,18 +13,13 @@
   "keywords": [
     "react",
     "reactjs",
-    "boilerplate",
     "reload",
     "live",
     "edit",
     "webpack"
   ],
-  "author": "Noah-Jerome Lotzer <n.lotzer@neusta.de>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/noahlotzer/react-simple-boilerplate/issues"
-  },
-  "homepage": "https://github.com/noahlotzer/react-simple-boilerplate",
+  "author": "Denys Tkachuk",
+  "license": "",
   "engines": {
     "node": ">=6.0.0"
   },
