@@ -20,6 +20,7 @@ class App extends Component {
         }
       ]
     };
+    this.socket = null;
     this.addMessage = this.addMessage.bind(this);
   }
 
@@ -40,19 +41,22 @@ class App extends Component {
     this.setState({
       messages: [...this.state.messages, newMessage]
     });
+    this.socket.send(JSON.stringify(newMessage));
   }
 
   componentDidMount() {
     setTimeout(() => {
       // Add a new message to the list of messages in the data store
+
       const newMessage = { id: 3, username: 'Michelle', content: 'Hello there!' };
       const messages = this.state.messages.concat(newMessage);
+
       // Update the state of the app component.
       // Calling setState will trigger a call to render() in App and all child components.
+
       this.setState({ messages: messages });
-      const exampleSocket = new WebSocket('ws://localhost:3001/');
-      exampleSocket.onopen = function(event) {
-        exampleSocket.send('Here\'s some text that the server is urgently awaiting!');
+      this.socket = new WebSocket('ws://localhost:3001/');
+      this.socket.onopen = function(event) {
         console.log(`Client connection is now ${event.type}`);
       };
     }, 3000);
