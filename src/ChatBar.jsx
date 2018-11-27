@@ -3,25 +3,32 @@ import React, { Component } from 'react';
 class ChatBar extends Component {
   constructor(props) {
     super(props);
-    this.state = { content: '' };
+    this.state = {
+      content: '',
+      userName: this.props.chatData.currentUser.name
+    };
 
-    // this.handleChange = this.handleChange.bind(this);
     this.keyPress = this.keyPress.bind(this);
+    this.handleUser = this.keyPress.bind(this);
   }
-  /* handleChange(e) {
-    this.setState({ value: e.target.value });
-  } */
   keyPress(e) {
     if (e.keyCode == 13) {
-      this.props.chatData.addMessage(e.target.value, this.props.chatData.currentUser.name);
+      this.props.chatData.addMessage(e.target.value, this.state.userName);
     }
   }
   render() {
-    const userName = this.props.chatData.currentUser.name;
+    //const userName = this.props.chatData.currentUser.name;
 
     return (
       <footer className="chatbar">
-        <input className="chatbar-username" placeholder={userName} />
+        <input
+          className="chatbar-username"
+          placeholder={this.props.chatData.currentUser.name}
+          value={this.state.userName}
+          onChange={function(e) {
+            this.setState({ userName: e.target.value });
+          }.bind(this)}
+        />
         <input
           className="chatbar-message"
           placeholder="Type a message and hit ENTER"
