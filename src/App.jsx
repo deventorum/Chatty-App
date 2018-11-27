@@ -50,6 +50,11 @@ class App extends Component {
       // Update the state of the app component.
       // Calling setState will trigger a call to render() in App and all child components.
       this.setState({ messages: messages });
+      const exampleSocket = new WebSocket('ws://localhost:3001/');
+      exampleSocket.onopen = function(event) {
+        exampleSocket.send('Here\'s some text that the server is urgently awaiting!');
+        console.log(`Client connection is now ${event.type}`);
+      };
     }, 3000);
   }
   render() {
