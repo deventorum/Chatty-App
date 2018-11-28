@@ -6,7 +6,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      currentUser: { name: 'Bob' }, // optional. if currentUser is not defined, it means the user is Anonymous
+      currentUser: { name: 'Anonymous' }, // optional. if currentUser is not defined, it means the user is Anonymous
       messages: [],
       clients: '0 users'
     };
@@ -20,7 +20,8 @@ class App extends Component {
     const newMessage = {
       type: 'postMessage',
       username: this.state.currentUser.name,
-      content: content
+      content: content,
+      color: this.state.color
     };
     this.socket.send(JSON.stringify(newMessage));
   }
@@ -45,26 +46,35 @@ class App extends Component {
     // Updates message list when new message comes in
     this.socket.onmessage = event => {
       const incomingData = JSON.parse(event.data);
-      if (incomingData.type === 'incomingNotification') {
-        this.setState({
-          currentUser: { name: incomingData.userNameNew },
-          messages: [...this.state.messages, incomingData]
-        });
-      } else if (incomingData.type === 'incomingMessage') {
-        this.setState({
-          messages: [...this.state.messages, incomingData]
-        });
-      } else if (incomingData.type === 'clientData') {
-        const numClients = incomingData.numberOfClients;
-        if (numClients === 1) {
+      switch (incomingData.type) {
+        case 'incomingNotification':
           this.setState({
-            clients: `${numClients} user`
+            currentUser: { name: incomingData.userNameNew },
+            messages: [...this.state.messages, incomingData]
           });
-        } else {
+          break;
+        case 'incomingMessage':
           this.setState({
-            clients: `${numClients} users`
+            messages: [...this.state.messages, incomingData]
           });
-        }
+          break;
+        case 'clientData':
+          const numClients = incomingData.numberOfClients;
+          if (numClients === 1) {
+            this.setState({
+              clients: `${numClients} user`
+            });
+          } else {
+            this.setState({
+              clients: `${numClients} users`
+            });
+          }
+          break;
+        case 'clientProfile':
+          console.log('Some Client Info');
+          this.setState({
+            color: incomingData.color
+          });
       }
       console.log(incomingData);
     };

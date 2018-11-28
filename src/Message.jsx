@@ -6,10 +6,15 @@ class Message extends Component {
     if (message.type === 'incomingMessage') {
       const userName = message.username ? message.username : 'Anonymous';
       const { content } = message;
+      const userStyle = {
+        color: message.color
+      };
 
       return (
         <div className="message">
-          <span className="message-username">{userName}</span>
+          <span className="message-username" style={userStyle}>
+            {userName}
+          </span>
           <span className="message-content">{content}</span>
         </div>
       );

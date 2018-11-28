@@ -34,8 +34,18 @@ function howManyClients() {
   })
 }
 
+const colors = ['red', 'green', 'blue', 'yellow']
+
 wss.on('connection', (ws) => {
   
+  const newClient = {
+    type: 'clientProfile',
+    color: colors[Math.floor(Math.random() * 4)]
+  }
+  console.log(newClient);
+  ws.send(JSON.stringify(newClient))
+
+
   // sends data on connect event
   howManyClients();
   
@@ -63,5 +73,6 @@ wss.on('connection', (ws) => {
     // sends data when connection is terminated
     howManyClients();
     console.log('Client disconnected');
+
   })
 });
