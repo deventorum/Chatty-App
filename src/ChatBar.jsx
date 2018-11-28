@@ -17,17 +17,17 @@ class ChatBar extends Component {
   keyPressMessage(e) {
     if (e.keyCode == 13) {
       this.props.chatData.addMessage(e.target.value);
-      this.setState({
-        content: e.target.value
-      });
+      e.target.value = '';
     }
   }
   keyPressUser(e) {
     if (e.keyCode == 13) {
-      this.props.chatData.addNotification(this.state.userName, e.target.value);
-      this.setState({
-        userName: e.target.value
-      });
+      if (this.state.userName !== e.target.value) {
+        this.props.chatData.addNotification(this.state.userName, e.target.value);
+        this.setState({
+          userName: e.target.value
+        });
+      }
     }
   }
   render() {
