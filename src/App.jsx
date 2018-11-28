@@ -7,59 +7,45 @@ class App extends Component {
     super();
     this.state = {
       currentUser: { name: 'Bob' }, // optional. if currentUser is not defined, it means the user is Anonymous
-      messages: [
-        {
-          id: 1,
-          username: 'Bob',
-          content: 'Has anyone seen my marbles?'
-        },
-        {
-          id: 2,
-          username: 'Anonymous',
-          content: 'No, I think you lost them. You lost your marbles Bob. You lost them for good.'
-        }
-      ]
+      messages: []
     };
     this.socket = null;
     this.addMessage = this.addMessage.bind(this);
   }
 
   addMessage(content, userName) {
-    const randomId = () => {
-      return (
-        '_' +
-        Math.random()
-          .toString(36)
-          .substr(2, 9)
-      );
-    };
     const newMessage = {
-      id: randomId(),
       username: userName,
       content: content
     };
-    this.setState({
+    /* this.setState({
       messages: [...this.state.messages, newMessage]
-    });
+    }); */
     this.socket.send(JSON.stringify(newMessage));
   }
 
   componentDidMount() {
-    setTimeout(() => {
-      // Add a new message to the list of messages in the data store
+    // Add a new message to the list of messages in the data store
 
-      const newMessage = { id: 3, username: 'Michelle', content: 'Hello there!' };
-      const messages = this.state.messages.concat(newMessage);
+    /* const newMessage = { id: 3, username: 'Michelle', content: 'Hello there!' }; */
+    // const messages = this.state.messages.concat(newMessage);
 
-      // Update the state of the app component.
-      // Calling setState will trigger a call to render() in App and all child components.
+    // Update the state of the app component.
+    // Calling setState will trigger a call to render() in App and all child components.
 
-      this.setState({ messages: messages });
-      this.socket = new WebSocket('ws://localhost:3001/');
-      this.socket.onopen = function(event) {
-        console.log(`Client connection is now ${event.type}`);
-      };
-    }, 3000);
+    // this.setState({ messages: messages });
+    this.socket = new WebSocket('ws://localhost:3001/');
+    this.socket.onopen = function(event) {
+      console.log(`Client connection is now ${event.type}`);
+    };
+    this.socket.onmessage = event => {
+      const incomingMessage = JSON.parse(event.data);
+      this.setState({
+        messages: [...this.state.messages, incomingMessage]
+      });
+      console.log(incomingMessage);
+      // code to handle incoming message
+    };
   }
   render() {
     const chatData = {

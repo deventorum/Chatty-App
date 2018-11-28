@@ -9,8 +9,9 @@ class ChatBar extends Component {
     };
 
     this.keyPress = this.keyPress.bind(this);
-    this.handleUser = this.keyPress.bind(this);
   }
+
+  // Fires up am event on Enter button press
   keyPress(e) {
     if (e.keyCode == 13) {
       this.props.chatData.addMessage(e.target.value, this.state.userName);
