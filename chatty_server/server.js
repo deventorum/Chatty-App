@@ -24,6 +24,12 @@ wss.on('connection', (ws) => {
     wss.clients.forEach(function each(client) {
       if (client.readyState === ws.OPEN) {
         const newData = JSON.parse(data)
+        if (newData.type === 'postMessage') {
+          newData.type = 'incomingMessage';
+        }
+        if (newData.type === 'postNotification') {
+          newData.type = 'incomingNotification'
+        }
         newData.id = uuidv1();
         client.send(JSON.stringify(newData));
       }

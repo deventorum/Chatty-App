@@ -7,12 +7,7 @@ class MessageList extends Component {
     const messageItems = messages.map(message => (
       <Message message={message} key={message.id.toString()} />
     ));
-    return (
-      <main className="messages">
-        {messageItems}
-        <div className="message system">Anonymous1 changed their name to nomnom.</div>
-      </main>
-    );
+    return <main className="messages">{messageItems}</main>;
   }
 }
 

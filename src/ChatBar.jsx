@@ -5,16 +5,29 @@ class ChatBar extends Component {
     super(props);
     this.state = {
       content: '',
-      userName: this.props.chatData.currentUser.name
+      userName: this.props.chatData.currentUser.name,
+      newUserName: ''
     };
 
-    this.keyPress = this.keyPress.bind(this);
+    this.keyPressMessage = this.keyPressMessage.bind(this);
+    this.keyPressUser = this.keyPressUser.bind(this);
   }
 
   // Fires up am event on Enter button press
-  keyPress(e) {
+  keyPressMessage(e) {
     if (e.keyCode == 13) {
-      this.props.chatData.addMessage(e.target.value, this.state.userName);
+      this.props.chatData.addMessage(e.target.value);
+      this.setState({
+        content: e.target.value
+      });
+    }
+  }
+  keyPressUser(e) {
+    if (e.keyCode == 13) {
+      this.props.chatData.addNotification(this.state.userName, e.target.value);
+      this.setState({
+        userName: e.target.value
+      });
     }
   }
   render() {
@@ -25,15 +38,12 @@ class ChatBar extends Component {
         <input
           className="chatbar-username"
           placeholder={this.props.chatData.currentUser.name}
-          value={this.state.userName}
-          onChange={function(e) {
-            this.setState({ userName: e.target.value });
-          }.bind(this)}
+          onKeyDown={this.keyPressUser}
         />
         <input
           className="chatbar-message"
           placeholder="Type a message and hit ENTER"
-          onKeyDown={this.keyPress}
+          onKeyDown={this.keyPressMessage}
         />
       </footer>
     );

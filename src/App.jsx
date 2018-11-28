@@ -11,46 +11,56 @@ class App extends Component {
     };
     this.socket = null;
     this.addMessage = this.addMessage.bind(this);
+    this.addNotification = this.addNotification.bind(this);
   }
 
-  addMessage(content, userName) {
+  // sends input data to the server
+  addMessage(content) {
     const newMessage = {
-      username: userName,
+      type: 'postMessage',
+      username: this.state.currentUser.name,
       content: content
     };
-    /* this.setState({
-      messages: [...this.state.messages, newMessage]
-    }); */
     this.socket.send(JSON.stringify(newMessage));
   }
 
+  addNotification(userNameOld, userNameNew) {
+    const newNotification = {
+      type: 'postNotification',
+      userNameOld,
+      userNameNew
+    };
+    console.log(newNotification);
+    this.socket.send(JSON.stringify(newNotification));
+  }
+
   componentDidMount() {
-    // Add a new message to the list of messages in the data store
-
-    /* const newMessage = { id: 3, username: 'Michelle', content: 'Hello there!' }; */
-    // const messages = this.state.messages.concat(newMessage);
-
-    // Update the state of the app component.
-    // Calling setState will trigger a call to render() in App and all child components.
-
-    // this.setState({ messages: messages });
+    // Creates web socket client
     this.socket = new WebSocket('ws://localhost:3001/');
     this.socket.onopen = function(event) {
       console.log(`Client connection is now ${event.type}`);
     };
+
+    // Updates message list when new message comes in
     this.socket.onmessage = event => {
-      const incomingMessage = JSON.parse(event.data);
+      const incomingData = JSON.parse(event.data);
+      if (incomingData.type === 'incomingNotification') {
+        this.setState({
+          currentUser: { name: incomingData.userNameNew }
+        });
+      }
       this.setState({
-        messages: [...this.state.messages, incomingMessage]
+        messages: [...this.state.messages, incomingData]
       });
-      console.log(incomingMessage);
-      // code to handle incoming message
+      console.log(incomingData);
     };
+    // code to handle incoming message
   }
   render() {
     const chatData = {
       currentUser: this.state.currentUser,
-      addMessage: this.addMessage
+      addMessage: this.addMessage,
+      addNotification: this.addNotification
     };
     return (
       <div>
