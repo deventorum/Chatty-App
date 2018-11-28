@@ -18,7 +18,29 @@ const wss = new SocketServer({ server });
 // When a client connects they are assigned a socket, represented by
 // the ws parameter in the callback.
 
+// Sends information to all clients regarding how many clients are connected
+function howManyClients() {
+  let numberOfClients = 0
+  wss.clients.forEach(function each(client) {
+    numberOfClients++
+  })
+  wss.clients.forEach(function each(client) {
+    const clientData = {
+      type: 'clientData',
+      numberOfClients
+    }
+  
+    client.send(JSON.stringify(clientData));
+  })
+}
+
 wss.on('connection', (ws) => {
+  
+  // sends data on connect event
+  howManyClients();
+  
+
+  // Handles messages from a client-side
   ws.on('message', function incoming(data) {
     console.log('received: %s', data);
     wss.clients.forEach(function each(client) {
@@ -37,5 +59,9 @@ wss.on('connection', (ws) => {
   })
 
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
-  ws.on('close', () => console.log('Client disconnected'));
+  ws.on('close', () => {
+    // sends data when connection is terminated
+    howManyClients();
+    console.log('Client disconnected');
+  })
 });

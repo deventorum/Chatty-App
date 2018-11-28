@@ -7,7 +7,8 @@ class App extends Component {
     super();
     this.state = {
       currentUser: { name: 'Bob' }, // optional. if currentUser is not defined, it means the user is Anonymous
-      messages: []
+      messages: [],
+      clients: '0 users'
     };
     this.socket = null;
     this.addMessage = this.addMessage.bind(this);
@@ -46,12 +47,25 @@ class App extends Component {
       const incomingData = JSON.parse(event.data);
       if (incomingData.type === 'incomingNotification') {
         this.setState({
-          currentUser: { name: incomingData.userNameNew }
+          currentUser: { name: incomingData.userNameNew },
+          messages: [...this.state.messages, incomingData]
         });
+      } else if (incomingData.type === 'incomingMessage') {
+        this.setState({
+          messages: [...this.state.messages, incomingData]
+        });
+      } else if (incomingData.type === 'clientData') {
+        const numClients = incomingData.numberOfClients;
+        if (numClients === 1) {
+          this.setState({
+            clients: `${numClients} user`
+          });
+        } else {
+          this.setState({
+            clients: `${numClients} users`
+          });
+        }
       }
-      this.setState({
-        messages: [...this.state.messages, incomingData]
-      });
       console.log(incomingData);
     };
     // code to handle incoming message
@@ -68,6 +82,7 @@ class App extends Component {
           <a href="/" className="navbar-brand">
             Chatty
           </a>
+          <span className="clients-number">{this.state.clients} online</span>
         </nav>
         <MessageList messages={this.state.messages} />
         <ChatBar chatData={chatData} />
