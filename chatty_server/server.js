@@ -34,7 +34,7 @@ function howManyClients() {
   })
 }
 
-const colors = ['red', 'green', 'blue', 'yellow']
+const colors = ['#80add7', '#0abda0', '#d4dca9', '#bf9d7A']
 
 wss.on('connection', (ws) => {
   
@@ -58,6 +58,12 @@ wss.on('connection', (ws) => {
         const newData = JSON.parse(data)
         if (newData.type === 'postMessage') {
           newData.type = 'incomingMessage';
+          const match = /https?:.*\.(png|jpeg|gif|jpg)/.exec(newData.content);
+          if (match) {
+            newData.content = newData.content.replace(match[0], '')
+            newData.image = match[0];
+          }
+          console.log(match);
         }
         if (newData.type === 'postNotification') {
           newData.type = 'incomingNotification'

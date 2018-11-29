@@ -30,7 +30,8 @@ class App extends Component {
     const newNotification = {
       type: 'postNotification',
       userNameOld,
-      userNameNew
+      userNameNew,
+      color: this.state.color
     };
     console.log(newNotification);
     this.socket.send(JSON.stringify(newNotification));
@@ -75,6 +76,9 @@ class App extends Component {
           this.setState({
             color: incomingData.color
           });
+          break;
+        default:
+          console.log('Somethin went wrong!');
       }
       console.log(incomingData);
     };

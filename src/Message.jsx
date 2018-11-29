@@ -9,13 +9,17 @@ class Message extends Component {
       const userStyle = {
         color: message.color
       };
+      const userImage = message.image && <img className="user-image" src={message.image} />;
 
       return (
-        <div className="message">
+        <div className="message" style={{ border: `2px solid ${message.color}` }}>
           <span className="message-username" style={userStyle}>
             {userName}
           </span>
-          <span className="message-content">{content}</span>
+          <div>
+            <p className="message-content">{content}</p>
+            {userImage}
+          </div>
         </div>
       );
     }
@@ -23,7 +27,7 @@ class Message extends Component {
       const { userNameOld } = message;
       const { userNameNew } = message;
       return (
-        <div className="message system">
+        <div className="message-system" style={{ border: `2px solid ${message.color}` }}>
           {userNameOld} has changed their name to {userNameNew}.
         </div>
       );

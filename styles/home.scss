@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700');
 
 body {
-  background: white;
+  background: #ebf2ea;
   color: black;
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
@@ -9,7 +9,7 @@ body {
 }
 
 .chatbar {
-  background: tomato;
+  background: #0abda0;
   border-top: 1px solid black;
   bottom: 0;
   display: flex;
@@ -27,6 +27,7 @@ body {
   line-height: 40px;
   margin: 5px;
   padding: 0 9px;
+  min-width: 225px;
 }
 
 .chatbar-message {
@@ -36,15 +37,30 @@ body {
 .chatbar-username {
   flex: 2;
 }
+.messages {
+  padding: 20px;
+  margin: 0 auto;
+  max-width: 600px;
+}
 
 .message {
   display: flex;
   padding: 5px;
+  max-height: 450px;
+  border-radius: 10px;
+  margin: 5px 0;
+}
+.user-image {
+  width: auto;
+  display: block;
+  max-height: 400px;
 }
 
-.message.system {
+.message-system {
   font-style: italic;
   padding: 5px 20px;
+  margin: 5px 0;
+  border-radius: 10px;
 }
 
 .message-content,
@@ -59,7 +75,6 @@ body {
 }
 
 .message-username {
-  flex: 2;
   font-weight: 700;
 }
 
@@ -67,7 +82,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: tomato;
+  background: #0abda0;
   border-bottom: 1px solid black;
   height: 60px;
   left: 0;
@@ -78,13 +93,19 @@ body {
 }
 
 .navbar-brand {
-  color: inherit;
+  color: #d4dca9;
   display: block;
   float: left;
   font-weight: 700;
-  font-size: 28px;
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  font-style: italic;
   height: 60px;
   line-height: 60px;
   padding: 0 10px;
   text-decoration: none;
+}
+.clients-number {
+  color: #d4dca9;
+  font-size: 2rem;
 }
