@@ -6,8 +6,8 @@ A simple chat application built with React.js and WebSockets
 
 ### Final Product
 
-![Screenshot-1 of the app ](https://github.com/deventorum/Chatty-App/blob/master/docs/Chatty-App-1.png);
-![Screenshot-2 of the app ](https://github.com/deventorum/Chatty-App/blob/master/docs/Chatty-App-2.png);
+![Screenshot-1 of the app ](https://github.com/deventorum/Chatty-App/blob/master/docs/Chatty-App-1.png)
+![Screenshot-2 of the app ](https://github.com/deventorum/Chatty-App/blob/master/docs/Chatty-App-2.png)
 
 ### Usage
 
