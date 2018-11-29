@@ -35,6 +35,9 @@ class App extends Component {
     };
     console.log(newNotification);
     this.socket.send(JSON.stringify(newNotification));
+    this.setState({
+      currentUser: { name: userNameNew }
+    });
   }
 
   componentDidMount() {
@@ -50,7 +53,6 @@ class App extends Component {
       switch (incomingData.type) {
         case 'incomingNotification':
           this.setState({
-            currentUser: { name: incomingData.userNameNew },
             messages: [...this.state.messages, incomingData]
           });
           break;
